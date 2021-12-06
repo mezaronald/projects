@@ -1,1 +1,1 @@
-# projects muestra algunas utilidades aprendidas en los lenguajes Python y R.
+# projects muestra algunas aplicaciones financieras en los lenguajes Python y R.
