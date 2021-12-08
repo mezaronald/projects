@@ -1,0 +1,37 @@
+Function margen(k As Integer, p As Currency, c As Currency) As Double
+'Margen = Beneficio / Total de ventas
+'Beneficio = Total de ventas - total de costos
+'Ventas totales = Precio de venta * Cantidad vendida
+'Total de costos = Costo por unidad * Cantidad producida
+'Se asume que cantidad producida = cantidad vendida
+'Margen = (Total de ventas - total de costos) / Total de ventas
+'Margen = (Cantidad vendida * (Precio de venta - Costo por unidad))/(Cantidad vendida*Precio de venta)
+
+margen = (k * (p - c)) / (k * p)
+
+End Function
+
+Sub resolucion()
+
+Dim fila As Integer
+fila = Cells(Rows.Count, 1).End(xlUp).Row
+
+'Llamando funciones para rellenar la tabla
+
+Worksheets("T.ventas").Range("E2:E" & fila).Formula = "=vlookup(B2,T.productos!$A$1:$E$15,4,0)" 'Precio
+Worksheets("T.ventas").Range("F2:F" & fila).Formula = "=vlookup(B2,T.productos!$A$1:$E$15,5,0)" 'Costo
+Worksheets("T.ventas").Range("G2:G" & fila).Formula = "=margen(D2,E2,F2)" 'Margen Bruto
+
+'Formato de columnas
+Worksheets("T.ventas").Range("D:D").NumberFormat = "###,###.0"
+Worksheets("T.ventas").Range("E:F").Style = "currency"
+Worksheets("T.ventas").Range("G:G").Style = "percent"
+
+'Pegar como valores
+Worksheets("T.ventas").Range("E:G").Copy
+Worksheets("T.ventas").Range("E:G").PasteSpecial Paste:=xlPasteValues 'Pegar como valores
+Application.CutCopyMode = False 'Remover líneas punteadas en función copiar
+
+Cells(1, 1).Select
+
+End Sub
